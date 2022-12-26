@@ -1,0 +1,19 @@
+# K8s namespace
+namespace: tfm-pre-agat-prog
+
+# Nombre de la imagen a desplegar
+image:
+  repository: agatalba/tfm-mca-filemanagement-front
+  tag: "latest"
+  
+service:
+  type: ClusterIP
+  port: 8090
+  
+oauth2:
+  host: oauth2
+  port: 8081
+  
+gateway:
+  host: gateway-service
+  port: 8085

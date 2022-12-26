@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-deploy
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: front
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: front
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: front
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        env:
+          - name: GATEWAY_HOST
+            value: "{{ .Values.gateway.host }}"      
+          - name: GATEWAY_PORT
+            value: "{{ .Values.gateway.port }}"
+          - name: USERS_HOST
+            value: "{{ .Values.oauth2.host }}"
+          - name: USERS_PORT 
+            value: "{{ .Values.oauth2.port }}"
+        ports:
+          - containerPort: {{ .Values.service.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-service
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: front
+  ports:
+  - name: front-port
+    port: {{ .Values.service.port }}

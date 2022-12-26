@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>mca.filesmanagement</groupId>
 	<artifactId>front</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<description>Frontal de la aplicación de expedientes</description>
 
 	<parent>
@@ -22,6 +22,31 @@
 		<project.scm.id>github-server-oauth2</project.scm.id>		
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>filesmanagements-repository</id>
+			<name>Artifactory para dependencias Release</name>
+			<url>http://mapeado-settings</url>
+			<layout>default</layout>
+			<releases></releases>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>release-artifacts-repository</id>
+			<name>Artifactory para dependencias Release</name>
+			<url>http://artifactory:8081/artifactory/libs-release/</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<id>snapshot-artifacts-repository</id>
+			<name>Artifactory para dependencias snapshot</name>
+			<url>http://artifactory:8081/artifactory/libs-snapshot/</url>
+			<layout>default</layout>
+		</snapshotRepository>
+	</distributionManagement>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -39,9 +64,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mca.filesmanagement</groupId>
-			<artifactId>api-gatewate-messaging</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>gateway</groupId>
+			<artifactId>gateway-api-messaging</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
