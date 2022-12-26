@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+	<title>File detail</title> 
+	<link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/main.css" rel="stylesheet">
+	<link href="/static/icons/solid.min.css" rel="stylesheet">
+	<link href="/static/icons/fontawesome.min.css" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body class="d-flex text-center text-white bg-dark">
+	<div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+		<form class="card p-2 bg-dark" th:action="@{/files/create}" method="post" enctype="multipart/form-data" >
+		    <header class="mb-auto">
+		        <div>
+		            <h3 class="float-md-start mb-0">Creation file</h3>
+		        </div>
+		    </header>	
+		
+			<main class="px-6">
+				<div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+					<div class="input-group outer-div">
+						<div class="inner-div">
+							<a th:href="@{/fileslist}" class="btn boton" style="width:100px"> <i class="fa fa-reply"></i>&nbsp;Back</a>
+							<button type="submit" class="btn boton">
+							    <i class="fa fa-save"></i> Create
+							</button>
+						</div>
+					</div>				
+				
+					<div class="input-group field-tittle">
+						<p class="lead">Select file to upload*</p>
+					</div>
+									
+		            <div class="input-group">
+		                <input type="file" id="file" name="file" class="form-control"/>	            
+		            </div>
+		            
+					<div class="input-group field-tittle">
+						<p class="lead">
+							<b>Change phase</b>
+						</p>
+					</div>
+	
+					<div class="input-group">
+						<select class="form-control" name="initialoption">
+							<option value="">Select option</option>
+							<option 
+								th:each="p : ${initialoptions}"
+								th:value="${p.id}" 
+								th:text="${p.description}">
+							</option>
+						</select>
+					</div>		            
+		            
+					<div class="input-group field-tittle">
+						<p class="lead">Code file*</p>
+					</div>
+		            	            
+		            <div class="input-group">
+		                <input type="text" id="code" name="code" class="form-control"/>
+		            </div>				
+	            </div>
+			</main>
+	
+		    <footer class="mt-auto text-white-50">
+		        <p>TFM Mastercloudapps agatalba@gmail.com</p>
+		    </footer>	
+	    </form>	
+	</div>
+</body>
+</html>

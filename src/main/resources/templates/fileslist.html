@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>File list</title>
+	<link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/main.css" rel="stylesheet">
+	<link href="/static/icons/solid.min.css" rel="stylesheet">
+	<link href="/static/icons/fontawesome.min.css" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body class="d-flex text-center text-white bg-dark">
+	<div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+	    <header class="mb-auto">
+	        <div>
+	            <h3 class="float-md-start mb-0">Files list</h3>
+	        </div>
+	    </header>
+	
+	    <main class="px-6">
+	    	<div class="input-group outer-div">
+    			<div class="inner-div">
+        			<a th:href="@{/filecreate}" class="btn boton"> <i class="fa fa-plus"></i>&nbsp;Create file</a>
+       				<a th:href="@{/logout}" class="btn boton"> <i class="fa fa-power-off"></i>&nbsp;Logout</a>
+       			</div>
+	       	</div>
+	       	
+	        <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+				<div class="input-group field-tittle">
+					<p class="lead">
+						<b>File list</b>
+					</p>
+				</div>	
+							
+				<table class="left">
+					<tr>
+						<th class="table-head">Code</th>
+						<th class="table-head">Initial option</th>
+						<th class="table-head">Date</th>
+						<th class="table-head">Phase</th>
+						<th class="table-head">Description</th>
+						<th />
+					</tr>
+					<tr th:each="file : ${fileslist}">
+						<td th:text="${file.id}"></td>
+						<td th:text="${file.initOption}"></td>
+						<td th:text="${#dates.format(file.procesDate, 'dd/MM/yyyy HH:mm')}"></td>
+						<td th:text="${file.phaseName}"></td>
+						<td th:text="${file.description}"></td>
+						<td>
+						<a th:href="@{/files/{code}(code=${file.id})}" class="btn boton"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Details</a>
+						</td>
+					</tr>
+				</table>
+			</div>	        
+	    </main>
+	
+	    <footer class="mt-auto text-white-50">
+	        <p>TFM Mastercloudapps agatalba@gmail.com</p>
+	    </footer>	
+	</div>
+</body>
+</html>

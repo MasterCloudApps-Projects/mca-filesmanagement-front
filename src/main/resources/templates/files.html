@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>File detail</title>
+	<link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/main.css" rel="stylesheet">
+	<link href="/static/icons/solid.min.css" rel="stylesheet">
+	<link href="/static/icons/fontawesome.min.css" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body class="d-flex text-center text-white bg-dark">
+	<div class="cover-container d-flex w-100 p-3 mx-auto flex-column">	
+		<form class="card p-2 bg-dark" action="#" th:action="@{/files/save}" th:object="${fileForm}" method="post">	
+			<input type="hidden" th:field="*{file.code}" /> 
+			<input type="hidden" th:field="*{file.procesCode}" /> 
+			<input type="hidden" th:field="*{file.phaseCode}" /> 	
+			
+			<header class="mb-auto">
+				<div>
+					<h3 class="float-md-start mb-0">File detail</h3>
+				</div>
+			</header>
+	
+			<main class="px-6">
+				<div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+					<div class="input-group outer-div">
+						<div class="inner-div">
+							<a th:href="@{/fileslist}" class="btn boton" style="width:100px"> <i class="fa fa-reply"></i>&nbsp;Back</a>
+							<button 
+								th:hidden="${fileForm.file.finished}"
+								type="submit" class="btn boton">
+							    <i class="fa fa-save"></i> Save
+							</button>
+						</div>
+					</div>
+					
+					<div class="input-group field-tittle">
+						<p class="lead">Code</p>
+					</div>
+	
+					<div class="input-group">
+						<p class="lead">
+							<b th:text="${fileForm.file.code}"></b>
+						</p>
+					</div>
+	
+					<div class="input-group field-tittle">
+						<p class="lead">Date</p>
+					</div>
+	
+					<div class="input-group">
+						<p class="lead">
+							<b th:text="${#dates.format(fileForm.file.date, 'dd/MM/yyyy HH:mm')}"></b>
+						</p>
+					</div>
+	
+					<div class="input-group field-tittle">
+						<p class="lead">User</p>
+					</div>
+	
+					<div class="input-group">
+						<p class="lead">
+							<b th:text="${fileForm.file.userNameCompleted}"></b>
+						</p>
+					</div>
+	
+					<div class="input-group field-tittle">
+						<p class="lead">Init Option</p>
+					</div>
+	
+					<div class="input-group">
+						<select class="form-control" th:field="*{file.initOption}" th:disabled="${fileForm.file.finished}">
+							<option 
+								th:each="p : ${fileForm.initialOptions}"
+								th:value="${p.id}" 
+								th:text="${p.description}">
+							</option>
+						</select>						
+					</div>
+	
+					<div class="input-group field-tittle">
+						<p class="lead">Description</p>
+					</div>
+	
+					<div class="input-group" th:hidden="${not fileForm.file.finished}">
+						<p class="lead">
+							<b th:text="${fileForm.file.description}"></b>
+						</p>					
+					</div>
+					
+					<div class="input-group" th:hidden="${fileForm.file.finished}">
+						<input type="text" th:field="*{file.description}" class="form-control" style="width: 100%"/>
+					</div>
+	
+					<div class="input-group field-tittle" th:hidden="${fileForm.file.finished}">
+						<p class="lead">
+							<b>Change phase</b>
+						</p>
+					</div>
+	
+					<div class="input-group" th:hidden="${fileForm.file.finished}">
+						<select class="form-control" th:field="*{phaseSelected}">
+							<option value="">Select option</option>
+							<option 
+								th:each="p : ${fileForm.availablesPhases}"
+								th:value="${p.code}" 
+								th:text="${p.description}">
+							</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+					<div class="input-group field-tittle">
+						<p class="lead">
+							<b>Phases</b>
+						</p>
+					</div>
+								
+					<table class="left">
+						<tr>
+							<th class="table-head">Phase</th>
+							<th class="table-head">Date</th>
+							<th class="table-head">Creation user</th>
+							<th class="table-head">Date finished</th>
+							<th class="table-head">Finished by</th>
+						</tr>
+						<tr th:each="phase : ${fileForm.file.phases}">
+							<td th:text="${phase.phaseDescription}"></td>
+							<td th:text="${#dates.format(phase.date, 'dd/MM/yyyy HH:mm')}"></td>
+							<td th:text="${phase.userNameCompleted}"></td>
+							<td th:text="${#dates.format(phase.dateFinished, 'dd/MM/yyyy HH:mm')}"></td>
+							<td th:text="${phase.userFinishedCompleted}"></td>
+						</tr>
+					</table>
+				</div>
+	
+				<div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+					<div class="input-group field-tittle">
+						<p class="lead">
+							<b>Documents</b>
+						</p>
+					</div>
+								
+					<table class="left">
+						<tr>
+							<th class="table-head">Name</th>
+							<th class="table-head">Date</th>
+							<th class="table-head">Creation user</th>
+							<th class="table-head">Date updated</th>
+						</tr>
+						<tr th:each="document : ${fileForm.file.documents}">
+							<td th:text="${document.name}"></td>
+							<td th:text="${#dates.format(document.creationDate, 'dd/MM/yyyy HH:mm')}"></td>
+							<td th:text="${document.creationUser}"></td>
+							<td th:text="${#dates.format(document.updateDate, 'dd/MM/yyyy HH:mm')}"></td>
+						</tr>
+					</table>
+				</div>
+			</main>
+	
+			<footer class="mt-auto text-white-50">
+				<p>TFM Mastercloudapps agatalba@gmail.com</p>
+			</footer>
+		</form>
+	</div>
+</body>
+</html>
