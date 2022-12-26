@@ -22,6 +22,31 @@
 		<project.scm.id>github-server-oauth2</project.scm.id>		
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>filesmanagements-repository</id>
+			<name>Artifactory para dependencias Release</name>
+			<url>http://mapeado-settings</url>
+			<layout>default</layout>
+			<releases></releases>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>release-artifacts-repository</id>
+			<name>Artifactory para dependencias Release</name>
+			<url>http://artifactory:8081/artifactory/libs-release/</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<id>snapshot-artifacts-repository</id>
+			<name>Artifactory para dependencias snapshot</name>
+			<url>http://artifactory:8081/artifactory/libs-snapshot/</url>
+			<layout>default</layout>
+		</snapshotRepository>
+	</distributionManagement>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
