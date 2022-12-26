@@ -4,7 +4,7 @@ pipeline {
         NAMESPACE = "${env.BRANCH_NAME == "main" ? "tfm-prod-agat-prog" : "tfm-pre-agat-prog"}"
         DEPLOY = "${env.BRANCH_NAME == "main" || env.BRANCH_NAME == "develop" ? "true" : "false"}"
         BUILD = "${env.BRANCH_NAME == "develop" || env.BRANCH_NAME.startsWith("release") || env.BRANCH_NAME == "main" ? "true" : "false"}"
-        REGISTRY = 'agatalba/tfm-mca-filemanagement-gateway'
+        REGISTRY = 'agatalba/tfm-mca-filemanagement-front'
     }
 	options {
 	    buildDiscarder(logRotator(numToKeepStr: "2"))
@@ -54,7 +54,7 @@ pipeline {
             }
             steps {
             	echo "version -- ${REGISTRY}" 
-                sh "mvn -f gateway-api/pom.xml compile com.google.cloud.tools:jib-maven-plugin:3.2.0:build -Dimage=${REGISTRY}:${pomVersion} -DskipTests -Djib.to.auth.username=agatalba -Djib.to.auth.password=agat1978#"                
+                sh "mvn -f compile com.google.cloud.tools:jib-maven-plugin:3.2.0:build -Dimage=${REGISTRY}:${pomVersion} -DskipTests -Djib.to.auth.username=agatalba -Djib.to.auth.password=agat1978#"                
             }
         }  
         stage('Deploy into Kubernetes') {
@@ -68,7 +68,7 @@ pipeline {
                 }
             }  
             steps {
-                sh "helm upgrade -n ${NAMESPACE} -f helm/values.yaml --set namespace=${NAMESPACE} --set image.tag='${pomVersion}' gateway-release helm/"
+                sh "helm upgrade -n ${NAMESPACE} -f helm/values.yaml --set namespace=${NAMESPACE} --set image.tag='${pomVersion}' front-release helm/"
             }
         }              
     }
