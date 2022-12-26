@@ -39,9 +39,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mca.filesmanagement</groupId>
-			<artifactId>api-gatewate-messaging</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>gateway</groupId>
+			<artifactId>gateway-api-messaging</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
