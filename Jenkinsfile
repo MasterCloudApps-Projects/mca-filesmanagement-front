@@ -16,15 +16,6 @@ pipeline {
     }
     
     stages {
-        stage('Print environment') {
-            steps {
-                echo "env.BRANCH_NAME -- ${env.BRANCH_NAME}"
-                echo "NAMESPACE -- ${NAMESPACE}"
-                echo "REGISTRY -- ${REGISTRY}"
-                echo "BUILD -- ${BUILD}"
-                echo "DEPLOY -- ${DEPLOY}"
-            }
-        }    
         stage('Unit Test') {
             steps {
                 script {
@@ -47,16 +38,18 @@ pipeline {
 			        sh 'mvn -s $MAVEN_SETTINGS deploy -DskipTests'
 			    }            
             }
-        }        
+        } 
         stage('Build image') {
             when {
                 environment name: 'BUILD', value: 'true'
             }
             steps {
-            	echo "version -- ${REGISTRY}" 
-                sh "mvn compile com.google.cloud.tools:jib-maven-plugin:3.2.0:build -Dimage=${REGISTRY}:${pomVersion} -DskipTests -Djib.to.auth.username=agatalba -Djib.to.auth.password=agat1978#"                
+            	withCredentials([usernamePassword(credentialsId: 'dockerhub-user', passwordVariable: 'pass', usernameVariable: 'user')]) {
+            		echo "version -- ${REGISTRY}" 
+                	sh "mvn compile com.google.cloud.tools:jib-maven-plugin:3.2.0:build -Dimage=${REGISTRY}:${pomVersion} -DskipTests -Djib.to.auth.username=${user} -Djib.to.auth.password=${pass}"                
+            	}
             }
-        }  
+        }                
         stage('Deploy into Kubernetes') {
             when {
                 environment name: 'DEPLOY', value: 'true'
